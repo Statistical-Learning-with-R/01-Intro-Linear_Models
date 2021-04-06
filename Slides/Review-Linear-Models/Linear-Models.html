@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Linear Models</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Linear Models
+
+---
+
+
+
+
+
+
+&lt;style type="text/css"&gt;
+.red{ color: red; }
+.blue{ color: blue; }
+.huge {
+  font-size: 200%;
+}
+.large {
+  font-size: 150%;
+}
+.tiny {
+  font-size: 50%;
+}
+&lt;/style&gt;
+
+---
+class: center, middle
+
+# What is Statistical Learning?
+
+---
+# Modeling
+
+Recall:  We are assuming that
+
+.center[.huge[
+(**output**) = .blue[f](**input**) + (noise)
+]]
+
+and we would like to estimate .blue[f].
+
+---
+# Linear Model
+
+
+`$$Y = \beta_0 + \beta_1 X + \epsilon$$`
+
+
+Goal:  Use observations `\((x_1, y_1), ..., (x_n, y_n)\)` to estimate `\(\beta_0\)` and `\(\beta_1\)`.
+
+---
+# Measures of success
+
+What is the "best" choice of `\(\hat{\beta}_0\)` and `\(\hat{\beta}_1\)`?
+
+--
+
+* The ones that are **statistically most justified**, under certain assumptions about `\(Y\)` and `\(X\)`?
+
+--
+
+* The ones that minimize the prediction error?
+
+    + `\(|\hat{y}_i - y_i|\)`?
+    + `\((\hat{y}_i - y_i)^2\)`?
+    + `\((\hat{y}_i - y_i)^4\)`?
+    
+--
+
+* The ones that minimize the prediction error *on new information*?
+
+    + `\(|y_{new} - \hat{y}_{new}|\)`?
+    + `\((y_{new} - \hat{y}_{new})^2\)`?
+    + `\((y_{new} - \hat{y}_{new})^4\)`?
+    
+---
+# Maximum Likelihood Estimate (MLE)
+
+
+Let's assume `\(X\)` is **Normally distributed** with some mean and variance.
+
+Let's assume that `\(Y\)` *given* `\(X\)` is **Normally distributed** with a mean of `\(\beta_0 + \beta_1 X\)` and some variance.
+
+--
+
+* Based on our data, what do we think are the mean and variance of `\(X\)`?
+
+* Based on our data, what do we think are the mean and variance of `\(Y\)`?
+
+* Based on our data, what is our *best guess* about `\(\beta_0\)` and `\(\beta_1\)`?
+
+--
+
+What if `\(Y\)` was **Exponentially distributed**?  **Poisson?** **Bernoulli**????
+
+
+---
+
+# MSE/SSE/RSE/RMSE
+
+The **residual** of a model is how much you "missed" by:
+
+`\(y_i - \hat{y_i}\)`
+
+
+--
+
+The **squared residual**, or **squared error** is that squared:
+
+
+`\((y_i - \hat{y_i})^2\)`
+
+---
+
+# MSE/SSE/RSE/RMSE
+
+The **sum of squared error (SSE)** is all those added up:
+
+
+sum over all `\(i\)` of `\((y_i - \hat{y_i})^2\)`
+
+--
+
+
+This is also called the **residual squared error (RSE)** or **residual sum of squares (RSS)**.
+
+--
+
+*(Yes, those are all the same thing.  Statistics is silly sometimes.)*
+
+
+---
+# MSE/SSE/RSE/RMSE
+
+
+The **mean squared error (MSE)** is all those added up and then averaged:
+
+
+sum over all `\(i\)` of `\((y_i - \hat{y_i})^2\)` divided by `\(n\)`
+
+---
+
+
+The **root mean squared error (RMSE)** is the square root of the MSE:
+
+
+sum over all `\(i\)` of `\((y_i - \hat{y_i})^2\)` divided by `\(n\)`, then square root it
+
+
+---
+
+# MSE/SSE/RSE/RMSE
+
+**What's the point of all this?**
+
+--
+
+If we decide the "best" `\(\beta_0\)` and `\(\beta_1\)` are the ones that minimize the **MSE**...
+
+--
+
+that's exactly the same as minimizing the **RMSE**, the **RSS**, the **SSE**, the **RSE**!
+
+--
+
+These are all measuring "how far are our predictions from the truth, in squared distance?"
+
+--
+
+**NOT** the same as "absolute" error ($|y_i - \hat{y_i}|$)
+
+---
+
+class: center, middle, inverse
+
+# Checkpoint:
+
+## Before any modeling analysis, you have to decide what your definition of the .large[BEST MODEL] is!
+
+![](https://beingabitchblog.files.wordpress.com/2017/12/lg.gif)
+
+---
+
+
+# Linear model estimates
+
+For linear models (but not *every* model!) the "best" model according to the (Normal) **MLE** and the "best" model according to the **MSE** agree!
+
+
+--
+
+Okay, so how do we calculate `\(\beta_0\)` and `\(\beta_1\)`?
+
+---
+
+class: center, middle, inverse
+
+# Make the computer do it!
+
+![](https://jeffreyhill.typepad.com/.a/6a00d8341d417153ef0147e2ac4dea970b-600wi)
+
+---
+
+# Get the idea, not the math
+
+**What you DON'T need to know:**
+
+* What mathematical equations are used to compute `\(\beta_0\)` and `\(\beta_1\)`.
+
+* What statistical properties your estimates of `\(\beta_0\)` and `\(\beta_1\)` have.
+
+* How the computer efficiently does these calculations.
+
+--
+
+**What you DO need to know:**
+
+* How to make a computer do the calculations
+
+* Which measure of model success lead to this estimation choice
+
+* How to interpret the results in the real world.
+
+
+---
+
+class: center, middle, inverse
+
+# Let's get started.
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"highlightStyle": "github",
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

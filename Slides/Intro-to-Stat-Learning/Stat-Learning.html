@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Intro to Statistical Learning</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Intro to Statistical Learning
+
+---
+
+
+
+
+
+
+&lt;style type="text/css"&gt;
+.red{ color: red; }
+.blue{ color: blue; }
+.huge {
+  font-size: 200%;
+}
+.large {
+  font-size: 150%;
+}
+.tiny {
+  font-size: 50%;
+}
+&lt;/style&gt;
+
+---
+class: center, middle
+
+# What is Statistical Learning?
+
+---
+# Modeling
+
+Every analysis we will do assumes a structure like:
+
+.center[.huge[
+(**output**) = .blue[f](**input**) + (noise)
+]]
+
+--
+
+... or, if you prefer...
+
+--
+
+.center[.large[
+(**response variables**) = .blue[f](**explanatory variables**) + (noise)
+]]
+
+--
+
+.center[.large[
+(**dependent variables**) = .blue[f](**independent variables**) + (noise)
+]]
+
+--
+
+.center[.large[
+(**target**) = .blue[f](**predictors**) + (noise)
+]]
+
+---
+# Modeling
+
+In any case: we are trying to reconstruct information in **data**, and we are hindered by **random noise**.
+
+--
+
+The function .large[.blue[f]] might be very simple...
+
+.center[.large[
+Y = .blue[X] + `\(\epsilon\)`
+]]
+
+--
+... or very complex
+
+![](messy_eq.png)
+
+---
+class: center, middle, inverse
+
+# This or That?
+
+---
+# Statistical Learning vs. Machine Learning
+
+You will often hear people refer to **machine learning** in reference to the topics in this class.
+
+My opinion:
+
+--
+
+**Statistical learning** is more concerned with the *model structure*, *interpretation of estimates*,  and *understanding error*.
+
+--
+
+**Machine learning** is more concerned with *model implementation* and *computational demands*.
+
+---
+## Quantitative (numeric) vs. qualitative (categorical)
+
+Often, the nature of our models will differ depending on the types of data involved!
+
+--
+
+## Regression vs. Classification
+
+**regression** = the response variables are *quantitative*
+
+**classification** = the response variables are *categorical*
+
+---
+## Supervised vs. Unsupervised
+
+**supervised** learning = our data includes observations of the output variable
+
+&gt; What drug treatments are associated with better disease outcomes?
+
+--
+
+**unsupervised** learning = our data does NOT include any observations of the output variable
+
+&gt; What social groups already exist among the Stat 434 students?
+
+---
+# Prediction vs. Inference
+
+So, why do we care about estimating .large[.blue[f]]?
+
+--
+
+**prediction:** We are trying to use future **inputs** to guess about future **outputs**.
+
+&gt; Which advertisements is Dr. B. most likely to click on Instagram?
+
+--
+
+**inference:** We are trying to tell a story about the **relationship** between variables.
+
+&gt; Which genes are more activated when breast cancer is present?
+
+---
+
+class: center, middle, inverse
+
+# What do we need to learn?
+
+---
+# Why not just "plug-and-chug"?
+
+It is important to think carefully about:
+
+* **Assumptions:** What do various models assume to be true about the data structure?  Are these justified?
+
+* **Interpretations:** What can we learn by estimating .blue[f] for a particular model?  Is that information what we are looking for?
+
+* **Estimation:** How is each .blue[f] being approximated?  Will this be a close approximation?
+
+* **Usage:** What are we going to do once we estimate .blue[f]?  Do certain models lend themselves better than others?
+
+---
+# Estimation
+
+If we are doing **prediction**, we mostly don't care about *assumptions*.
+
+--
+
+The "best" model is the model that predicts most accurately.
+
+--
+
+But: What measure of *accuracy* do we prioritize?
+
+--
+
+If we are doing **inference**, we care a lot about *assumptions*.
+
+--
+
+The "best" model is the one that matches the truth.
+
+--
+
+But:  What the heck is the *truth*???
+
+---
+# In this Class
+
+You will learn:
+
+- To apply many different models to real data using **R** or **python**.
+
+- To interpret the output of these model estimates
+
+- To use *cross-validation* to compare models
+
+- To explain the general structure and philosophy behind each model
+
+- To select an appropriate "best" model for a data analysis, and make a well-reasoned argument for your choice.
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"highlightStyle": "github",
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

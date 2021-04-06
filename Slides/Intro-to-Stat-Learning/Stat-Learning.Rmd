@@ -1,0 +1,228 @@
+---
+title: "Intro to Statistical Learning"
+resource_files:
+- appforthat.jpg
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightLines: yes
+      highlightStyle: github
+      countIncrementalSlides: false
+      ratio: '16:9'
+
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+library(tidyverse)
+```
+
+```{r xaringan-themer, include=FALSE}
+library(xaringanthemer)
+library(xaringanExtra)
+style_mono_light(
+  base_color = "#26116c",
+  text_bold_color = "#fd5e53",
+  title_slide_text_color = "#fff8e7",
+  background_color = "#fff8e7",
+  header_font_google = google_font("Roboto"),
+  text_font_google   = google_font("Roboto Condensed"),
+  code_font_google   = google_font("Droid Mono")
+)
+```
+
+```{css, echo = FALSE}
+.red{ color: red; }
+.blue{ color: blue; }
+.huge {
+  font-size: 200%;
+}
+.large {
+  font-size: 150%;
+}
+.tiny {
+  font-size: 50%;
+}
+```
+
+---
+class: center, middle
+
+# What is Statistical Learning?
+
+---
+# Modeling
+
+Every analysis we will do assumes a structure like:
+
+.center[.huge[
+(**output**) = .blue[f](**input**) + (noise)
+]]
+
+--
+
+... or, if you prefer...
+
+--
+
+.center[.large[
+(**response variables**) = .blue[f](**explanatory variables**) + (noise)
+]]
+
+--
+
+.center[.large[
+(**dependent variables**) = .blue[f](**independent variables**) + (noise)
+]]
+
+--
+
+.center[.large[
+(**target**) = .blue[f](**predictors**) + (noise)
+]]
+
+---
+# Modeling
+
+In any case: we are trying to reconstruct information in **data**, and we are hindered by **random noise**.
+
+--
+
+The function .large[.blue[f]] might be very simple...
+
+.center[.large[
+Y = .blue[X] + $\epsilon$
+]]
+
+--
+... or very complex
+
+![](messy_eq.png)
+
+---
+class: center, middle, inverse
+
+# This or That?
+
+---
+# Statistical Learning vs. Machine Learning
+
+You will often hear people refer to **machine learning** in reference to the topics in this class.
+
+My opinion:
+
+--
+
+**Statistical learning** is more concerned with the *model structure*, *interpretation of estimates*,  and *understanding error*.
+
+--
+
+**Machine learning** is more concerned with *model implementation* and *computational demands*.
+
+---
+## Quantitative (numeric) vs. qualitative (categorical)
+
+Often, the nature of our models will differ depending on the types of data involved!
+
+--
+
+## Regression vs. Classification
+
+**regression** = the response variables are *quantitative*
+
+**classification** = the response variables are *categorical*
+
+---
+## Supervised vs. Unsupervised
+
+**supervised** learning = our data includes observations of the output variable
+
+> What drug treatments are associated with better disease outcomes?
+
+--
+
+**unsupervised** learning = our data does NOT include any observations of the output variable
+
+> What social groups already exist among the Stat 434 students?
+
+---
+# Prediction vs. Inference
+
+So, why do we care about estimating .large[.blue[f]]?
+
+--
+
+**prediction:** We are trying to use future **inputs** to guess about future **outputs**.
+
+> Which advertisements is Dr. B. most likely to click on Instagram?
+
+--
+
+**inference:** We are trying to tell a story about the **relationship** between variables.
+
+> Which genes are more activated when breast cancer is present?
+
+---
+
+class: center, middle, inverse
+
+# What do we need to learn?
+
+---
+# Why not just "plug-and-chug"?
+
+It is important to think carefully about:
+
+* **Assumptions:** What do various models assume to be true about the data structure?  Are these justified?
+
+* **Interpretations:** What can we learn by estimating .blue[f] for a particular model?  Is that information what we are looking for?
+
+* **Estimation:** How is each .blue[f] being approximated?  Will this be a close approximation?
+
+* **Usage:** What are we going to do once we estimate .blue[f]?  Do certain models lend themselves better than others?
+
+---
+# Estimation
+
+If we are doing **prediction**, we mostly don't care about *assumptions*.
+
+--
+
+The "best" model is the model that predicts most accurately.
+
+--
+
+But: What measure of *accuracy* do we prioritize?
+
+--
+
+If we are doing **inference**, we care a lot about *assumptions*.
+
+--
+
+The "best" model is the one that matches the truth.
+
+--
+
+But:  What the heck is the *truth*???
+
+---
+# In this Class
+
+You will learn:
+
+- To apply many different models to real data using **R** or **python**.
+
+- To interpret the output of these model estimates
+
+- To use *cross-validation* to compare models
+
+- To explain the general structure and philosophy behind each model
+
+- To select an appropriate "best" model for a data analysis, and make a well-reasoned argument for your choice.
+
+
+
+
