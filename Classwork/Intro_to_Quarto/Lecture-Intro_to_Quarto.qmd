@@ -165,7 +165,7 @@ a <- 1:5
 ```{python, version = "python"}
 #| error: true
 a.mean()
-a <- np.arange(1, 5)
+a = np.arange(1, 5)
 ```
 
 %%% version: python
