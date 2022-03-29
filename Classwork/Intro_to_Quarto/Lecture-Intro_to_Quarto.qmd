@@ -1,0 +1,186 @@
+---
+title: "Welcome to Quarto!"
+author: "YOUR NAME HERE"
+format: 
+  html:
+    code-fold: true
+    code-line-numbers: true
+    code-tools: true
+editor: visual
+---
+
+```{r, eval = TRUE, version = "none"}
+templar::versions_quarto_multilingual(global_eval = FALSE, to_jupyter = TRUE, warn_edit = FALSE)
+```
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+The advantage of Quarto is that you can intersperse your text with your code and output with your ordinary text. This makes it easier to create nicely formatted reports, showing both the statistical analysis and the written discussion.
+
+When you click the **Render** button a document will be generated that includes both content as well as the output of any embedded code chunks within the document:
+
+```{r, version = "R"}
+#| label: add-r
+1 + 1
+```
+
+```{python, version = "python"}
+#| label: add-py
+1 + 1
+```
+
+## Code Chunks
+
+The "grey areas" above are called *code chunks*. This means that Quarto understands anything you write inside them to be code that should be executed by the computer.
+
+Notice that this does not calculate anything:
+
+100\*35
+
+but this does:
+
+```{r, version = "R"}
+100*35
+```
+
+```{python, version = "python"}
+100*35
+```
+
+What about this?
+
+```{r, version = "R"}
+# 100*35
+```
+
+```{python, version = "python"}
+# 100*35
+```
+
+## Libraries
+
+R and python are both *open-source* languages, meaning that they rely on "add-on" code, or **packages**, to add to the functionality of the language.
+
+Many packages have been pre-installed for you. These include:
+
+%%% version: R
+
+`tidyverse` for data manipulation and visualization
+
+`tidymodels` for statistical learning
+
+`here` and `janitor`, two helpful little packages we will use
+
+%%%
+
+%%% version: python
+
+`pandas` for data manipulation
+
+`plotnine` for data visualization
+
+`numpy` for math operations
+
+`scikit-learn` for statistical learning models
+
+%%%
+
+Even though packages have been **installed** already, you still need to **declare your dependencies** at the start of every Quarto notebook:
+
+```{r, version = "R"}
+library(tidyverse)
+library(tidymodels)
+library(here)
+library(janitor)
+```
+
+```{python, version = "python"}
+import pandas as pd
+import numpy as np
+```
+
+%%% version: python
+
+In python, we often only import some of the functions from a package, later on when we need to use them.
+
+%%%
+
+```{python, version = "python"}
+from plotnine import ggplot, geom_point, aes, stat_smooth, facet_wrap
+from plotnine.data import mtcars
+```
+
+Now that we have loaded our packages, we can make some nice visuals:
+
+```{r, version = "R"}
+#| label: plot-r
+#| echo: false
+#| fig-cap: "Figure 1. A beautiful plot."
+ggplot(mtcars, aes(x = wt, 
+                   y = mpg,
+                   color = factor(gear))) + 
+  geom_point() + 
+  stat_smooth(method='lm') + 
+  facet_wrap(~gear)
+```
+
+```{python, version = "python"}
+#| label: plot-py
+#| echo: false
+#| fig-cap: "Figure 1. A beautiful plot."
+
+(ggplot(mtcars, aes('wt', 'mpg', color='factor(gear)'))
+ + geom_point()
+ + stat_smooth(method='lm')
+ + facet_wrap('~gear'))
+```
+
+Note that the `echo: false` parameter was added to the code chunk to prevent printing of the code that generated the plot. We also used the `fig-cap` option to give a nice caption. There are many more of these "chunk options" that can control the behavior of your output!
+
+## Saving, Previewing, Rendering
+
+You do **not** have to render the Quarto file to save it. You can save your `.qmd` file in the ordinary ways: File \> Save, or Control + S, or clicking the disk icon.
+
+To preview the file, and see changes in realtime, choose the "Settings" wheel and pick "Preview in Viewer Pane".
+
+When you render the file, you are creating a "final" version. Here is what happens:
+
+1.  The text is formatted nicely.
+
+2.  The code chunks are all run, in order, from scratch.
+
+3.  A `.html` file is automatically created with the finished product.
+
+This means the order of your code chunks is very important! You might run code in a different order when you are interacting with your notebook directly, but this won't help you when it comes to knitting.
+
+```{r, version = "R"}
+#| error: true
+mean(a)
+a <- 1:5
+```
+
+```{python, version = "python"}
+#| error: true
+a.mean()
+a <- np.arange(1, 5)
+```
+
+%%% version: python
+
+::: callout-tip
+Notice the `a.` and `np.` parts! The `a.mean()` says that we apply the `mean()` function to the object `a`. The `np.arange()` part, by contrast, says that the `arange` function came from the `numpy` library that we imported!
+:::
+
+::: callout-caution
+Recall that in R, `1:5` gave an array of the numbers 1, 2, 3, 4, 5. How is `arange(1,5)` different?
+:::
+
+%%%
+
+## R and python
+
+Quarto works exactly the same whether you use R and python - but you can't use both at the same time.
+
+The only difference is in the top section of the document, called the **YAML**. Can you spot the one line that turns an R-based `.qmd` document (the default) into a python-based one?
