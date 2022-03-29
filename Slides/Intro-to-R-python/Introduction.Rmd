@@ -1,5 +1,5 @@
 ---
-title: "Intro to R/Python and R Markdown"
+title: "Intro to R/Python and Quarto"
 resource_files:
 - appforthat.jpg
 output:
@@ -236,7 +236,7 @@ class: center, middle
 ---
 class: center, middle, inverse
 
-# Intro to R Markdown
+# Intro to R Markdown and Quarto
 
 ---
 
@@ -269,53 +269,19 @@ R Markdown files have the **.Rmd** extension.
 ![](https://miro.medium.com/max/1200/1*jL-whKGBhuUlU7Q2oevz9w.png)
 
 ---
-# Knitting
+## What is Quarto?
 
-To convert your R Markdown file to a beautiful document, click **Knit**.
+Quarto is a *brand spanking new* version of R Markdown that can do a lot more cool stuff!
 
-![](https://rstudioblog.files.wordpress.com/2014/06/r-markdown-formats.png)
----
-# Knitting
+Most notably, it can handle python code much more easily.
 
-You do **not** have to knit a file to *save* it!!!
+It looks very similar to R Markdown.
 
-Do this the regular way:
-
-- `Ctrl/Cmd + S`
-
-- Click the Floppy Disk icon
-
-- Click "File > Save As"
-
---
-
-As you work, you should **save** extremely frequently and **knit** semi-regularly.
-
----
-# Knitting
-
-When you click **knit**, here is what happens:
-
---
-
-- Your file is saved.
-
---
-
-- The R code written in your *.Rmd* file gets run.
-
-    + Any code you ran already doesn't "count"; we start from scratch.
-    + The code is run *in order*.
-
---
-
-- A new file is created.
-
-    + If your R Markdown file is called "Lab1.Rmd", then a file called "Lab1.html" will be created.
-    + This will save in the same folder as "Lab1.Rmd".
+We'll try it out today!
     
 ---
 
 class: center, middle, invert
 
 # Let's try it!
+

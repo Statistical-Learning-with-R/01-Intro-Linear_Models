@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.9.159">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="YOUR NAME HERE">
+  <title>Linear Models Review</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="Lecture-Linear_Models-R_files/libs/clipboard/clipboard.min.js"></script>
+  <script src="Lecture-Linear_Models-R_files/libs/quarto-html/quarto.js"></script>
+  <script src="Lecture-Linear_Models-R_files/libs/quarto-html/popper.min.js"></script>
+  <script src="Lecture-Linear_Models-R_files/libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="Lecture-Linear_Models-R_files/libs/quarto-html/anchor.min.js"></script>
+  <link href="Lecture-Linear_Models-R_files/libs/quarto-html/tippy.css" rel="stylesheet">
+  <link id="quarto-text-highlighting-styles" href="Lecture-Linear_Models-R_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="Lecture-Linear_Models-R_files/libs/bootstrap/bootstrap.min.js"></script>
+  <link href="Lecture-Linear_Models-R_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="Lecture-Linear_Models-R_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="fullcontent">
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title-block"><div><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+
+<div class="quarto-title"><h1 class="title">Linear Models Review</h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Author</div><div class="quarto-title-meta-contents"><div class="quarto-title-authors"><div><div>
+<p>YOUR NAME HERE</p>
+</div></div></div></div></div></div></header>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>Declare your libraries:</p>
+</section>
+<section id="the-dataset" class="level1">
+<h1>The Dataset</h1>
+<p>Today we will use a dataset containing counts of babies born in California with the name “Kelly” between 1989 and 2016. Run the chunk below to load the data, and to check out the first few rows of your dataset.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>kelly_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://www.dropbox.com/s/jbqpw6yevaugtth/kellys_ca.csv?dl=1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-stderr">
+<pre><code>Rows: 56 Columns: 5
+-- Column specification --------------------------------------------------------
+Delimiter: ","
+chr (3): State, Gender, Name
+dbl (2): Year, Count
+
+i Use `spec()` to retrieve the full column specification for this data.
+i Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">head</span>(kelly_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 6 x 5
+  State Gender  Year Name  Count
+  &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+1 CA    F       1989 Kelly   920
+2 CA    F       1990 Kelly   929
+3 CA    F       1991 Kelly   785
+4 CA    F       1992 Kelly   800
+5 CA    F       1993 Kelly   703
+6 CA    F       1994 Kelly   682</code></pre>
+</div>
+</div>
+<p>The first thing we need to do with any dataset is check for missing data, and make sure the variables are the right type:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>kelly_df <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-stdout">
+<pre><code>    State              Gender               Year          Name          
+ Length:56          Length:56          Min.   :1989   Length:56         
+ Class :character   Class :character   1st Qu.:1996   Class :character  
+ Mode  :character   Mode  :character   Median :2002   Mode  :character  
+                                       Mean   :2002                     
+                                       3rd Qu.:2009                     
+                                       Max.   :2016                     
+     Count      
+ Min.   :  9.0  
+ 1st Qu.: 20.0  
+ Median : 97.5  
+ Mean   :238.0  
+ 3rd Qu.:445.2  
+ Max.   :929.0  </code></pre>
+</div>
+</div>
+<p>Looks good for this data, with one exception:</p>
+<p>The “Gender” variable is being treated as a “character” variable, i.e., just an ordinary word.</p>
+<p>But we know it should be <em>categorical</em>, aka a <em>factor</em> variable. Let’s <code>mutate</code> the dataset to fix this:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>kelly_df <span class="ot">&lt;-</span> kelly_df <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-3"><a href="#cb7-3"></a>    <span class="at">Gender =</span> <span class="fu">factor</span>(Gender)</span>
+<span id="cb7-4"><a href="#cb7-4"></a>  )</span>
+<span id="cb7-5"><a href="#cb7-5"></a></span>
+<span id="cb7-6"><a href="#cb7-6"></a>kelly_df <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-stdout">
+<pre><code>    State           Gender      Year          Name               Count      
+ Length:56          F:28   Min.   :1989   Length:56          Min.   :  9.0  
+ Class :character   M:28   1st Qu.:1996   Class :character   1st Qu.: 20.0  
+ Mode  :character          Median :2002   Mode  :character   Median : 97.5  
+                           Mean   :2002                      Mean   :238.0  
+                           3rd Qu.:2009                      3rd Qu.:445.2  
+                           Max.   :2016                      Max.   :929.0  </code></pre>
+</div>
+</div>
+<p>The next thing we should do is visualize our variables to get a feel for what is going on in this data.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>kelly_df <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Count)) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Lecture-Linear_Models-R_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Hmmm…. clearly there is some kind of linear-ish decreasing trend in number of Kellys. But what’s going on with the two separate lines?</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>kelly_df <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Count, <span class="at">color =</span> Gender)) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Lecture-Linear_Models-R_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<section id="fitting-a-model" class="level2">
+<h2 class="anchored" data-anchor-id="fitting-a-model">Fitting a model</h2>
+<p>Let’s begin with a simple linear model. We will focus only on the female-assigned Kelly babies for now.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>kellys_fem <span class="ot">&lt;-</span> kelly_df <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="fu">filter</span>(</span>
+<span id="cb11-3"><a href="#cb11-3"></a>    Gender <span class="sc">==</span> <span class="st">"F"</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Our first step is to establish a which model(s) we want to try on the data.</p>
+<p>For now, this is just a simple linear model.</p>
+<p>To establish the model, we need to determine which R package it comes from (the “engine”) and whether we are doing <em>regression</em> or <em>classification</em>.</p>
+<p>(These functions come from the <em>tidymodels</em> package that we loaded in the setup chunk.)</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>lin_reg <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Next, we will <strong>fit</strong> the model to our data:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>lin_reg_fit <span class="ot">&lt;-</span> lin_reg <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>  <span class="fu">fit</span>(Count <span class="sc">~</span> Year, <span class="at">data =</span> kellys_fem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Let’s check out the output of this model fit:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>lin_reg_fit<span class="sc">$</span>fit <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-stdout">
+<pre><code>
+Call:
+stats::lm(formula = Count ~ Year, data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-82.389 -37.288  -2.308  40.127 108.871 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 60455.320   2387.585   25.32   &lt;2e-16 ***
+Year          -29.967      1.192  -25.13   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 50.96 on 26 degrees of freedom
+Multiple R-squared:  0.9605,    Adjusted R-squared:  0.9589 
+F-statistic: 631.7 on 1 and 26 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>How do we interpret this?</p>
+<ul>
+<li><p>The slope is -29.97. That means there are about 30 fewer female babies named Kelly born each year since 1989!</p></li>
+<li><p>The p-value of the model is basically 0. That means this model is very significant, i.e., there is probably a relationship between the variables.</p></li>
+<li><p>The r-squared value is 0.9605. This means 96.05% of the variance in Kelly names over the years is explained by the name going out of style as time passes.</p></li>
+</ul>
+</section>
+<section id="residuals" class="level2">
+<h2 class="anchored" data-anchor-id="residuals">Residuals</h2>
+<p>Now let’s look the residuals of the model.</p>
+<p>First, we can find out what values were predicted by the model:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>preds <span class="ot">&lt;-</span> lin_reg_fit <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="#cb16-2"></a>  <span class="fu">predict</span>(<span class="at">new_data =</span> kellys_fem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Then, we can calculate and visualize the residuals:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>kellys_fem <span class="ot">&lt;-</span> kellys_fem <span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb17-3"><a href="#cb17-3"></a>    <span class="at">Predicted_Count =</span> preds<span class="sc">$</span>.pred,</span>
+<span id="cb17-4"><a href="#cb17-4"></a>    <span class="at">residuals =</span> Count <span class="sc">-</span> Predicted_Count</span>
+<span id="cb17-5"><a href="#cb17-5"></a>  )</span>
+<span id="cb17-6"><a href="#cb17-6"></a></span>
+<span id="cb17-7"><a href="#cb17-7"></a>kellys_fem <span class="sc">%&gt;%</span></span>
+<span id="cb17-8"><a href="#cb17-8"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> residuals)) <span class="sc">+</span></span>
+<span id="cb17-9"><a href="#cb17-9"></a>    <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="Lecture-Linear_Models-R_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Do the residuals seem to represent “random noise”?</p>
+<p>That is, was our choice of model reasonable?</p>
+</section>
+<section id="metrics" class="level2">
+<h2 class="anchored" data-anchor-id="metrics">Metrics</h2>
+<p>If we are trying to find the “best” model, we should measure how well this one did.</p>
+<p>We can compute the SSE and MSE “by hand”:</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">sum</span>(kellys_fem<span class="sc">$</span>residuals<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-stdout">
+<pre><code>[1] 67527.03</code></pre>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource r cell-code number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="fu">mean</span>(kellys_fem<span class="sc">$</span>residuals<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-stdout">
+<pre><code>[1] 2411.68</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="your-turn" class="level1">
+<h1>YOUR TURN</h1>
+<p>What about Gender? Is the pattern of decreasing Kelly babies the same for the two Genders? Can you include Gender in the model, and interpret the results?</p>
+<p>With your group, create a new notebook (you can copy this one if you want), and fit a model using both Year <em>and</em> Gender as predictors. Report your results.</p>
+
+<!-- -->
+<div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title anchored" id="quarto-embedded-source-code-modal-label" data-anchor-id="your-turn">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb22" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb22-1"><a href="#cb22-1"></a><span class="co">---</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="an">title:</span><span class="co"> "Linear Models Review"</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a><span class="an">author:</span><span class="co"> "YOUR NAME HERE"</span></span>
+<span id="cb22-4"><a href="#cb22-4"></a><span class="an">format:</span><span class="co"> </span></span>
+<span id="cb22-5"><a href="#cb22-5"></a><span class="co">  html:</span></span>
+<span id="cb22-6"><a href="#cb22-6"></a><span class="co">    code-fold: true</span></span>
+<span id="cb22-7"><a href="#cb22-7"></a><span class="co">    code-line-numbers: true</span></span>
+<span id="cb22-8"><a href="#cb22-8"></a><span class="co">    code-tools: true</span></span>
+<span id="cb22-9"><a href="#cb22-9"></a><span class="an">editor:</span><span class="co"> visual</span></span>
+<span id="cb22-10"><a href="#cb22-10"></a><span class="co">---</span></span>
+<span id="cb22-11"><a href="#cb22-11"></a></span>
+<span id="cb22-12"><a href="#cb22-12"></a><span class="fu">## Setup</span></span>
+<span id="cb22-13"><a href="#cb22-13"></a></span>
+<span id="cb22-14"><a href="#cb22-14"></a>Declare your libraries:</span>
+<span id="cb22-15"><a href="#cb22-15"></a></span>
+<span id="cb22-18"><a href="#cb22-18"></a><span class="in">```{r}</span></span>
+<span id="cb22-19"><a href="#cb22-19"></a><span class="co">#| label: libraries-r</span></span>
+<span id="cb22-20"><a href="#cb22-20"></a><span class="co">#| include: false</span></span>
+<span id="cb22-21"><a href="#cb22-21"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb22-22"><a href="#cb22-22"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb22-23"><a href="#cb22-23"></a><span class="in">```</span></span>
+<span id="cb22-24"><a href="#cb22-24"></a></span>
+<span id="cb22-25"><a href="#cb22-25"></a></span>
+<span id="cb22-26"><a href="#cb22-26"></a><span class="fu"># The Dataset</span></span>
+<span id="cb22-27"><a href="#cb22-27"></a></span>
+<span id="cb22-28"><a href="#cb22-28"></a>Today we will use a dataset containing counts of babies born in California with the name "Kelly" between 1989 and 2016. Run the chunk below to load the data, and to check out the first few rows of your dataset.</span>
+<span id="cb22-29"><a href="#cb22-29"></a></span>
+<span id="cb22-32"><a href="#cb22-32"></a><span class="in">```{r}</span></span>
+<span id="cb22-33"><a href="#cb22-33"></a>kelly_df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://www.dropbox.com/s/jbqpw6yevaugtth/kellys_ca.csv?dl=1"</span>)</span>
+<span id="cb22-34"><a href="#cb22-34"></a><span class="fu">head</span>(kelly_df)</span>
+<span id="cb22-35"><a href="#cb22-35"></a><span class="in">```</span></span>
+<span id="cb22-36"><a href="#cb22-36"></a></span>
+<span id="cb22-37"><a href="#cb22-37"></a></span>
+<span id="cb22-38"><a href="#cb22-38"></a>The first thing we need to do with any dataset is check for missing data, and make sure the variables are the right type:</span>
+<span id="cb22-39"><a href="#cb22-39"></a></span>
+<span id="cb22-42"><a href="#cb22-42"></a><span class="in">```{r}</span></span>
+<span id="cb22-43"><a href="#cb22-43"></a>kelly_df <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span>
+<span id="cb22-44"><a href="#cb22-44"></a><span class="in">```</span></span>
+<span id="cb22-45"><a href="#cb22-45"></a></span>
+<span id="cb22-46"><a href="#cb22-46"></a></span>
+<span id="cb22-47"><a href="#cb22-47"></a>Looks good for this data, with one exception:</span>
+<span id="cb22-48"><a href="#cb22-48"></a></span>
+<span id="cb22-49"><a href="#cb22-49"></a>The "Gender" variable is being treated as a "character" variable, i.e., just an ordinary word.</span>
+<span id="cb22-50"><a href="#cb22-50"></a></span>
+<span id="cb22-51"><a href="#cb22-51"></a>But we know it should be *categorical*, aka a *factor* variable. Let's <span class="in">`mutate`</span> the dataset to fix this:</span>
+<span id="cb22-52"><a href="#cb22-52"></a></span>
+<span id="cb22-53"><a href="#cb22-53"></a></span>
+<span id="cb22-56"><a href="#cb22-56"></a><span class="in">```{r}</span></span>
+<span id="cb22-57"><a href="#cb22-57"></a>kelly_df <span class="ot">&lt;-</span> kelly_df <span class="sc">%&gt;%</span></span>
+<span id="cb22-58"><a href="#cb22-58"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb22-59"><a href="#cb22-59"></a>    <span class="at">Gender =</span> <span class="fu">factor</span>(Gender)</span>
+<span id="cb22-60"><a href="#cb22-60"></a>  )</span>
+<span id="cb22-61"><a href="#cb22-61"></a></span>
+<span id="cb22-62"><a href="#cb22-62"></a>kelly_df <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span>
+<span id="cb22-63"><a href="#cb22-63"></a><span class="in">```</span></span>
+<span id="cb22-64"><a href="#cb22-64"></a></span>
+<span id="cb22-65"><a href="#cb22-65"></a></span>
+<span id="cb22-66"><a href="#cb22-66"></a></span>
+<span id="cb22-67"><a href="#cb22-67"></a>The next thing we should do is visualize our variables to get a feel for what is going on in this data.</span>
+<span id="cb22-68"><a href="#cb22-68"></a></span>
+<span id="cb22-71"><a href="#cb22-71"></a><span class="in">```{r}</span></span>
+<span id="cb22-72"><a href="#cb22-72"></a>kelly_df <span class="sc">%&gt;%</span></span>
+<span id="cb22-73"><a href="#cb22-73"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Count)) <span class="sc">+</span></span>
+<span id="cb22-74"><a href="#cb22-74"></a>  <span class="fu">geom_point</span>()</span>
+<span id="cb22-75"><a href="#cb22-75"></a><span class="in">```</span></span>
+<span id="cb22-76"><a href="#cb22-76"></a></span>
+<span id="cb22-77"><a href="#cb22-77"></a></span>
+<span id="cb22-78"><a href="#cb22-78"></a>Hmmm.... clearly there is some kind of linear-ish decreasing trend in number of Kellys. But what's going on with the two separate lines?</span>
+<span id="cb22-79"><a href="#cb22-79"></a></span>
+<span id="cb22-82"><a href="#cb22-82"></a><span class="in">```{r}</span></span>
+<span id="cb22-83"><a href="#cb22-83"></a>kelly_df <span class="sc">%&gt;%</span></span>
+<span id="cb22-84"><a href="#cb22-84"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> Count, <span class="at">color =</span> Gender)) <span class="sc">+</span></span>
+<span id="cb22-85"><a href="#cb22-85"></a>  <span class="fu">geom_point</span>()</span>
+<span id="cb22-86"><a href="#cb22-86"></a><span class="in">```</span></span>
+<span id="cb22-87"><a href="#cb22-87"></a></span>
+<span id="cb22-88"><a href="#cb22-88"></a><span class="fu">## Fitting a model</span></span>
+<span id="cb22-89"><a href="#cb22-89"></a></span>
+<span id="cb22-90"><a href="#cb22-90"></a>Let's begin with a simple linear model. We will focus only on the female-assigned Kelly babies for now.</span>
+<span id="cb22-91"><a href="#cb22-91"></a></span>
+<span id="cb22-94"><a href="#cb22-94"></a><span class="in">```{r}</span></span>
+<span id="cb22-95"><a href="#cb22-95"></a>kellys_fem <span class="ot">&lt;-</span> kelly_df <span class="sc">%&gt;%</span></span>
+<span id="cb22-96"><a href="#cb22-96"></a>  <span class="fu">filter</span>(</span>
+<span id="cb22-97"><a href="#cb22-97"></a>    Gender <span class="sc">==</span> <span class="st">"F"</span></span>
+<span id="cb22-98"><a href="#cb22-98"></a>  )</span>
+<span id="cb22-99"><a href="#cb22-99"></a><span class="in">```</span></span>
+<span id="cb22-100"><a href="#cb22-100"></a></span>
+<span id="cb22-101"><a href="#cb22-101"></a></span>
+<span id="cb22-102"><a href="#cb22-102"></a>Our first step is to establish a which model(s) we want to try on the data.</span>
+<span id="cb22-103"><a href="#cb22-103"></a></span>
+<span id="cb22-104"><a href="#cb22-104"></a>For now, this is just a simple linear model.</span>
+<span id="cb22-105"><a href="#cb22-105"></a></span>
+<span id="cb22-106"><a href="#cb22-106"></a>To establish the model, we need to determine which R package it comes from (the "engine") and whether we are doing *regression* or *classification*.</span>
+<span id="cb22-107"><a href="#cb22-107"></a></span>
+<span id="cb22-108"><a href="#cb22-108"></a>(These functions come from the *tidymodels* package that we loaded in the setup chunk.) </span>
+<span id="cb22-109"><a href="#cb22-109"></a></span>
+<span id="cb22-110"><a href="#cb22-110"></a></span>
+<span id="cb22-113"><a href="#cb22-113"></a><span class="in">```{r}</span></span>
+<span id="cb22-114"><a href="#cb22-114"></a>lin_reg <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb22-115"><a href="#cb22-115"></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-116"><a href="#cb22-116"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span>
+<span id="cb22-117"><a href="#cb22-117"></a><span class="in">```</span></span>
+<span id="cb22-118"><a href="#cb22-118"></a></span>
+<span id="cb22-119"><a href="#cb22-119"></a></span>
+<span id="cb22-120"><a href="#cb22-120"></a></span>
+<span id="cb22-121"><a href="#cb22-121"></a>Next, we will **fit** the model to our data:</span>
+<span id="cb22-122"><a href="#cb22-122"></a></span>
+<span id="cb22-125"><a href="#cb22-125"></a><span class="in">```{r}</span></span>
+<span id="cb22-126"><a href="#cb22-126"></a>lin_reg_fit <span class="ot">&lt;-</span> lin_reg <span class="sc">%&gt;%</span></span>
+<span id="cb22-127"><a href="#cb22-127"></a>  <span class="fu">fit</span>(Count <span class="sc">~</span> Year, <span class="at">data =</span> kellys_fem)</span>
+<span id="cb22-128"><a href="#cb22-128"></a><span class="in">```</span></span>
+<span id="cb22-129"><a href="#cb22-129"></a></span>
+<span id="cb22-130"><a href="#cb22-130"></a></span>
+<span id="cb22-131"><a href="#cb22-131"></a>Let's check out the output of this model fit:</span>
+<span id="cb22-132"><a href="#cb22-132"></a></span>
+<span id="cb22-135"><a href="#cb22-135"></a><span class="in">```{r}</span></span>
+<span id="cb22-136"><a href="#cb22-136"></a>lin_reg_fit<span class="sc">$</span>fit <span class="sc">%&gt;%</span> </span>
+<span id="cb22-137"><a href="#cb22-137"></a>  <span class="fu">summary</span>()</span>
+<span id="cb22-138"><a href="#cb22-138"></a><span class="in">```</span></span>
+<span id="cb22-139"><a href="#cb22-139"></a></span>
+<span id="cb22-140"><a href="#cb22-140"></a></span>
+<span id="cb22-141"><a href="#cb22-141"></a>How do we interpret this?</span>
+<span id="cb22-142"><a href="#cb22-142"></a></span>
+<span id="cb22-143"><a href="#cb22-143"></a><span class="ss">-   </span>The slope is -29.97. That means there are about 30 fewer female babies named Kelly born each year since 1989!</span>
+<span id="cb22-144"><a href="#cb22-144"></a></span>
+<span id="cb22-145"><a href="#cb22-145"></a><span class="ss">-   </span>The p-value of the model is basically 0. That means this model is very significant, i.e., there is probably a relationship between the variables.</span>
+<span id="cb22-146"><a href="#cb22-146"></a></span>
+<span id="cb22-147"><a href="#cb22-147"></a></span>
+<span id="cb22-148"><a href="#cb22-148"></a><span class="ss">-   </span>The r-squared value is 0.9605. This means 96.05% of the variance in Kelly names over the years is explained by the name going out of style as time passes.</span>
+<span id="cb22-149"><a href="#cb22-149"></a></span>
+<span id="cb22-150"><a href="#cb22-150"></a><span class="fu">## Residuals</span></span>
+<span id="cb22-151"><a href="#cb22-151"></a></span>
+<span id="cb22-152"><a href="#cb22-152"></a>Now let's look the residuals of the model.</span>
+<span id="cb22-153"><a href="#cb22-153"></a></span>
+<span id="cb22-154"><a href="#cb22-154"></a>First, we can find out what values were predicted by the model:</span>
+<span id="cb22-155"><a href="#cb22-155"></a></span>
+<span id="cb22-158"><a href="#cb22-158"></a><span class="in">```{r}</span></span>
+<span id="cb22-159"><a href="#cb22-159"></a>preds <span class="ot">&lt;-</span> lin_reg_fit <span class="sc">%&gt;%</span> </span>
+<span id="cb22-160"><a href="#cb22-160"></a>  <span class="fu">predict</span>(<span class="at">new_data =</span> kellys_fem)</span>
+<span id="cb22-161"><a href="#cb22-161"></a><span class="in">```</span></span>
+<span id="cb22-162"><a href="#cb22-162"></a></span>
+<span id="cb22-163"><a href="#cb22-163"></a></span>
+<span id="cb22-164"><a href="#cb22-164"></a>Then, we can calculate and visualize the residuals:</span>
+<span id="cb22-165"><a href="#cb22-165"></a></span>
+<span id="cb22-168"><a href="#cb22-168"></a><span class="in">```{r}</span></span>
+<span id="cb22-169"><a href="#cb22-169"></a>kellys_fem <span class="ot">&lt;-</span> kellys_fem <span class="sc">%&gt;%</span></span>
+<span id="cb22-170"><a href="#cb22-170"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb22-171"><a href="#cb22-171"></a>    <span class="at">Predicted_Count =</span> preds<span class="sc">$</span>.pred,</span>
+<span id="cb22-172"><a href="#cb22-172"></a>    <span class="at">residuals =</span> Count <span class="sc">-</span> Predicted_Count</span>
+<span id="cb22-173"><a href="#cb22-173"></a>  )</span>
+<span id="cb22-174"><a href="#cb22-174"></a></span>
+<span id="cb22-175"><a href="#cb22-175"></a>kellys_fem <span class="sc">%&gt;%</span></span>
+<span id="cb22-176"><a href="#cb22-176"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> residuals)) <span class="sc">+</span></span>
+<span id="cb22-177"><a href="#cb22-177"></a>    <span class="fu">geom_point</span>()</span>
+<span id="cb22-178"><a href="#cb22-178"></a><span class="in">```</span></span>
+<span id="cb22-179"><a href="#cb22-179"></a></span>
+<span id="cb22-180"><a href="#cb22-180"></a></span>
+<span id="cb22-181"><a href="#cb22-181"></a>Do the residuals seem to represent "random noise"?</span>
+<span id="cb22-182"><a href="#cb22-182"></a></span>
+<span id="cb22-183"><a href="#cb22-183"></a>That is, was our choice of model reasonable?</span>
+<span id="cb22-184"><a href="#cb22-184"></a></span>
+<span id="cb22-185"><a href="#cb22-185"></a><span class="fu">## Metrics</span></span>
+<span id="cb22-186"><a href="#cb22-186"></a></span>
+<span id="cb22-187"><a href="#cb22-187"></a>If we are trying to find the "best" model, we should measure how well this one did.</span>
+<span id="cb22-188"><a href="#cb22-188"></a></span>
+<span id="cb22-189"><a href="#cb22-189"></a>We can compute the SSE and MSE "by hand":</span>
+<span id="cb22-190"><a href="#cb22-190"></a></span>
+<span id="cb22-193"><a href="#cb22-193"></a><span class="in">```{r}</span></span>
+<span id="cb22-194"><a href="#cb22-194"></a><span class="fu">sum</span>(kellys_fem<span class="sc">$</span>residuals<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb22-195"><a href="#cb22-195"></a><span class="fu">mean</span>(kellys_fem<span class="sc">$</span>residuals<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb22-196"><a href="#cb22-196"></a><span class="in">```</span></span>
+<span id="cb22-197"><a href="#cb22-197"></a></span>
+<span id="cb22-198"><a href="#cb22-198"></a></span>
+<span id="cb22-199"><a href="#cb22-199"></a><span class="fu"># YOUR TURN</span></span>
+<span id="cb22-200"><a href="#cb22-200"></a></span>
+<span id="cb22-201"><a href="#cb22-201"></a>What about Gender? Is the pattern of decreasing Kelly babies the same for the two Genders? Can you include Gender in the model, and interpret the results?</span>
+<span id="cb22-202"><a href="#cb22-202"></a></span>
+<span id="cb22-203"><a href="#cb22-203"></a>With your group, create a new notebook (you can copy this one if you want), and fit a model using both Year *and* Gender as predictors. Report your results.</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</section>
+</main>
+<!-- /main column -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+</body></html>
