@@ -10,7 +10,6 @@ editor: visual
 jupyter: python3
 ---
 
-
 ```{python}
 #| label: libraries-py
 #| include: false
@@ -21,12 +20,9 @@ import matplotlib.pyplot as plt
 
 2.  Find something that all of you enjoy for fun. Insert a related picture or meme below.
 
-
-
 3.  Everyone decide your comfort level on a scale of 1-10 in python, and your favorite colors from [this](https://matplotlib.org/stable/gallery/color/named_colors.html) list.
 
 Edit the code below so that it has your names and corresponding comfort levels.
-
 
 ```{python}
 #| label: group_info-py
@@ -40,7 +36,6 @@ group_data = {
 4.  Click "Render" and see the plot that is produced.
 
 (Do not edit the code chunk below!)
-
 
 ```{python}
 #| label: plot-py

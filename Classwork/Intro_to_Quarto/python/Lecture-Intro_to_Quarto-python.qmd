@@ -18,7 +18,6 @@ The advantage of Quarto is that you can intersperse your text with your code and
 
 When you click the **Render** button a document will be generated that includes both content as well as the output of any embedded code chunks within the document:
 
-
 ```{python}
 #| label: add-py
 1 + 1
@@ -34,13 +33,11 @@ Notice that this does not calculate anything:
 
 but this does:
 
-
 ```{python}
 100*35
 ```
 
 What about this?
-
 
 ```{python}
 # 100*35
@@ -52,7 +49,6 @@ R and python are both *open-source* languages, meaning that they rely on "add-on
 
 Many packages have been pre-installed for you. These include:
 
-
 `pandas` for data manipulation
 
 `plotnine` for data visualization
@@ -61,9 +57,7 @@ Many packages have been pre-installed for you. These include:
 
 `scikit-learn` for statistical learning models
 
-
 Even though packages have been **installed** already, you still need to **declare your dependencies** at the start of every Quarto notebook:
-
 
 ```{python}
 import pandas as pd
@@ -73,13 +67,11 @@ import seaborn as sns
 
 In python, we often only import some of the functions from a package, later on when we need to use them.
 
-
 ```{python}
 import matplotlib.pyplot as plt
 ```
 
 Now that we have loaded our packages, we can make some nice visuals:
-
 
 ```{python}
 #| label: plot-py
@@ -112,11 +104,10 @@ When you render the file, you are creating a "final" version. Here is what happe
 
 This means the order of your code chunks is very important! You might run code in a different order when you are interacting with your notebook directly, but this won't help you when it comes to knitting.
 
-
 ```{python}
 #| error: true
 a.mean()
-a <- np.arange(1, 5)
+a = np.arange(1, 5)
 ```
 
 ::: callout-tip
@@ -126,7 +117,6 @@ Notice the `a.` and `np.` parts! The `a.mean()` says that we apply the `mean()` 
 ::: callout-caution
 Recall that in R, `1:5` gave an array of the numbers 1, 2, 3, 4, 5. How is `arange(1,5)` different?
 :::
-
 
 ## R and python
 

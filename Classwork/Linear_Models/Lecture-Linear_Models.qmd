@@ -30,20 +30,20 @@ library(tidymodels)
 import pandas as pd
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
 ```
 
 # The Dataset
 
-Today we will use a dataset containing counts of babies born in California with the name "Kelly" between 1989 and 2016.  Run the chunk below to load the data, and to check out the first few rows of your dataset.
-
+Today we will use a dataset containing counts of babies born in California with the name "Kelly" between 1989 and 2016. Run the chunk below to load the data, and to check out the first few rows of your dataset.
 
 ```{r, version = "R"}
-kelly_df <- read_csv("https://www.dropbox.com/s/p3dez3ug5fquygh/kellys_ca.csv?dl=1")
+kelly_df <- read_csv("https://www.dropbox.com/s/jbqpw6yevaugtth/kellys_ca.csv?dl=1")
 head(kelly_df)
 ```
 
 ```{python, version = "python"}
-kelly_df = pd.read_csv("https://www.dropbox.com/s/p3dez3ug5fquygh/kellys_ca.csv?dl=1")
+kelly_df = pd.read_csv("https://www.dropbox.com/s/jbqpw6yevaugtth/kellys_ca.csv?dl=1")
 kelly_df.head()
 ```
 
@@ -57,13 +57,13 @@ kelly_df %>% summary()
 kelly_df.info()
 ```
 
-Looks good for this data, with one exception:  
+Looks good for this data, with one exception:
 
 %%% version: R
 
 The "Gender" variable is being treated as a "character" variable, i.e., just an ordinary word.
 
-But we know it should be *categorical*, aka a *factor* variable.  Let's `mutate` the dataset to fix this:
+But we know it should be *categorical*, aka a *factor* variable. Let's `mutate` the dataset to fix this:
 
 %%%
 
@@ -76,13 +76,11 @@ kelly_df <- kelly_df %>%
 kelly_df %>% summary()
 ```
 
-
-
 %%% version: python
 
 The "Gender" variable is being treated as an "object" variable, i.e., just an ordinary word.
 
-But we know it should be *categorical*, aka a *factor* variable.  Let's retype the variable to fix this:
+But we know it should be *categorical*, aka a *factor* variable. Let's retype the variable to fix this:
 
 %%%
 
@@ -99,16 +97,12 @@ kelly_df %>%
   geom_point()
 ```
 
-
 ```{python, version = "python"}
-from plotnine import ggplot, geom_point
-(ggplot(aes(x = 'Year', y = 'Count')) 
-  + geom_point()
-  )
+plt.plot(kelly_df['Year'], kelly_df['Count'])
+plt.show()
 ```
 
-Hmmm.... clearly there is some kind of linear-ish decreasing trend in number of Kellys.  But what's going on with the two separate lines?
-
+Hmmm.... clearly there is some kind of linear-ish decreasing trend in number of Kellys. But what's going on with the two separate lines?
 
 ```{r, version = "R"}
 kelly_df %>%
@@ -116,10 +110,9 @@ kelly_df %>%
   geom_point()
 ```
 
-
 ## Fitting a model
 
-Let's begin with a simple linear model.  We will focus only on the female-assigned Kelly babies for now.
+Let's begin with a simple linear model. We will focus only on the female-assigned Kelly babies for now.
 
 ```{r, version = "R"}
 kellys_fem <- kelly_df %>%
@@ -132,17 +125,16 @@ kellys_fem <- kelly_df %>%
 kellys_fem = kelly_df[kelly_df['Gender'] == "F"]
 ```
 
-
-Our first step is to establish a which model(s) we want to try on the data. 
+Our first step is to establish a which model(s) we want to try on the data.
 
 For now, this is just a simple linear model.
 
-%%%
-version: R
+%%% version: R
 
 To establish the model, we need to determine which R package it comes from (the "engine") and whether we are doing *regression* or *classification*.
 
-(These functions come from the *tidymodels* package that we loaded in the setup chunk.)
+(These functions come from the *tidymodels* package that we loaded in the setup chunk.) 
+
 %%%
 
 ```{r, version = "R"}
@@ -151,17 +143,16 @@ lin_reg <- linear_reg() %>%
   set_mode("regression")
 ```
 
-%%%
-version: python
+%%% version: python
 
-To establish the model, we use the`LinearRegression` function was imported from the *SkikitLearn* package in our setup chunk.
+To establish the model, we use the `LinearRegression` function was imported from the *scikit-learn* package in our setup chunk. 
+
 %%%
 
 ```{python, version = "python"}
 lin_reg = LinearRegression()
 
 ```
-
 
 Next, we will **fit** the model to our data:
 
@@ -170,11 +161,9 @@ lin_reg_fit <- lin_reg %>%
   fit(Count ~ Year, data = kellys_fem)
 ```
 
-
 ```{python, version = "python"}
 lin_reg.fit(X = kellys_fem[['Year']], y = kellys_fem['Count'])
 ```
-
 
 Let's check out the output of this model fit:
 
@@ -183,23 +172,24 @@ lin_reg_fit$fit %>%
   summary()
 ```
 
-
 ```{python, version = "python"}
 lin_reg.coef_
+r2_score(kellys_fem['Count'], lin_reg.predict(kellys_fem[["Year"]]))
 ```
-
 
 How do we interpret this?
 
-* The slope is -29.97.  That means there are about 30 fewer female babies named Kelly born each year since 1989!
+-   The slope is -29.97. That means there are about 30 fewer female babies named Kelly born each year since 1989!
 
-* The p-value of the model is basically 0.  That means this model is very significant, i.e., there is probably a relationship between the variables.
+%%% version: R
 
-* The r-squared value is 0.9605.  This means 96.05% of the variance in Kelly names over the years is explained by the name going out of style as time passes.
+-   The p-value of the model is basically 0. That means this model is very significant, i.e., there is probably a relationship between the variables.
 
+%%%
+
+-   The r-squared value is 0.9605. This means 96.05% of the variance in Kelly names over the years is explained by the name going out of style as time passes.
 
 ## Residuals
-
 
 Now let's look the residuals of the model.
 
@@ -215,7 +205,6 @@ preds = lin_reg.predict(kellys_fem[['Year']])
 ```
 
 Then, we can calculate and visualize the residuals:
-
 
 ```{r, version = "R"}
 kellys_fem <- kellys_fem %>%
@@ -240,7 +229,6 @@ Do the residuals seem to represent "random noise"?
 
 That is, was our choice of model reasonable?
 
-
 ## Metrics
 
 If we are trying to find the "best" model, we should measure how well this one did.
@@ -257,9 +245,8 @@ sum(resids**2)
 sum(resids**2)/28
 ```
 
-
 # YOUR TURN
 
-What about Gender?  Is the pattern of decreasing Kelly babies the same for the two Genders?  Can you include Gender in the model, and interpret the results?
+What about Gender? Is the pattern of decreasing Kelly babies the same for the two Genders? Can you include Gender in the model, and interpret the results?
 
-With your group, create a new notebook (you can copy this one if you want), and fit a model using both Year *and* Gender as predictors.  Report your results.
+With your group, create a new notebook (you can copy this one if you want), and fit a model using both Year *and* Gender as predictors. Report your results.
