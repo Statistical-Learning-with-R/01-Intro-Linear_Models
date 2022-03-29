@@ -68,14 +68,14 @@ Even though packages have been **installed** already, you still need to **declar
 ```{python}
 import pandas as pd
 import numpy as np
+import seaborn as sns
 ```
 
 In python, we often only import some of the functions from a package, later on when we need to use them.
 
 
 ```{python}
-from plotnine import ggplot, geom_point, aes, stat_smooth, facet_wrap
-from plotnine.data import mtcars
+import matplotlib.pyplot as plt
 ```
 
 Now that we have loaded our packages, we can make some nice visuals:
@@ -85,11 +85,13 @@ Now that we have loaded our packages, we can make some nice visuals:
 #| label: plot-py
 #| echo: false
 #| fig-cap: "Figure 1. A beautiful plot."
+mtcars = sns.load_dataset("mpg")
 
-(ggplot(mtcars, aes('wt', 'mpg', color='factor(gear)'))
- + geom_point()
- + stat_smooth(method='lm')
- + facet_wrap('~gear'))
+g = sns.FacetGrid(mtcars, col='cylinders')
+
+g = g.map(sns.regplot, 'weight', 'mpg')
+
+plt.show()
 ```
 
 Note that the `echo: false` parameter was added to the code chunk to prevent printing of the code that generated the plot. We also used the `fig-cap` option to give a nice caption. There are many more of these "chunk options" that can control the behavior of your output!

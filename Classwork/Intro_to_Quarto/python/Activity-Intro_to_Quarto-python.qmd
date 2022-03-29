@@ -45,6 +45,7 @@ group_data = {
 ```{python}
 #| label: plot-py
 #| fig-cap: "Our comfort levels with python"
+
 plt.bar(x = group_data['names'], height = group_data['comfort'], color = group_data['colors'])
 plt.ylabel("Comfort with python")
 plt.show()

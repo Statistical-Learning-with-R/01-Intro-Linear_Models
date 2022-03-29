@@ -79,10 +79,9 @@ Now that we have loaded our packages, we can make some nice visuals:
 #| fig-cap: "Figure 1. A beautiful plot."
 ggplot(mtcars, aes(x = wt, 
                    y = mpg,
-                   color = factor(gear))) + 
+                   color = factor(cyl))) + 
   geom_point() + 
-  stat_smooth(method='lm') + 
-  facet_wrap(~gear)
+  facet_wrap(~cyl)
 ```
 
 

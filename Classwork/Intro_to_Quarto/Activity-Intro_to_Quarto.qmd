@@ -79,10 +79,8 @@ group_data %>%
 ```{python, version = "python"}
 #| label: plot-py
 #| fig-cap: "Our comfort levels with python"
-from plotnine import ggplot, geom_point, aes, stat_smooth, facet_wrap
 
-ggplot(group_data,
-  aes(x = 'names', y = 'comfort', fill = 'names')) +\
-  geom_col() +\
-  scale_fill_manual(values = group_data['colors'])
+plt.bar(x = group_data['names'], height = group_data['comfort'], color = group_data['colors'])
+plt.ylabel("Comfort with python")
+plt.show()
 ```
